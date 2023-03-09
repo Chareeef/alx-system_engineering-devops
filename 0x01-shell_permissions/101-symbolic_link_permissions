@@ -1,0 +1,2 @@
+#!/bin/bash
+chownR vincent:staff _hello
