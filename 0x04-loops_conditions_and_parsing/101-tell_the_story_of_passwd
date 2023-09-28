@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Display /etc/passwd as a story
+
+while IFS=: read -r USER_NAME PASSWORD USER_ID GROUP_ID USER_INFO USER_HOME USER_SHELL
+do
+	echo "The user $USER_NAME is part of the $GROUP_ID gang, \
+lives in $USER_HOME and rides $USER_SHELL. \
+$USER_ID's place is protected by the passcode $PASSWORD, \
+more info about the user here: $USER_INFO"
+done < "/etc/passwd"
