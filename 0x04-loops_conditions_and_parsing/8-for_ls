@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# A bash sript displaying the content of the current directory in a list format
+# Where only the part of the name after the first dash is displayed
+
+for name in $(find . -maxdepth 1 -type f -not -path '*\/.*' | cut -d'/' -f2-| cut -d'-' -f2-); do
+	echo "$name"
+done
