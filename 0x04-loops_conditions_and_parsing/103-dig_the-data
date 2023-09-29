@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
 # Sort IP adresses by number of occurences apache-access.log
 
-./102-lets_parse_apache_logs | awk '{
+awk '{
 ip = $1
-http_code = $2
+http_code = $9
 
 key = ip " " http_code
 
 count[key]++
-}
-END {
-for (key in count)
-	print "\t" count[key], key
-}' | sort -nr
+
+print "\t" count[key] " " key
+}' apache-access.log | sort -nr > sorted.txt
+
+awk '{
+key = $2 " " $3
+if (!count[key]++)
+print $0
+}' sorted.txt
+
+rm -f sorted.txt
