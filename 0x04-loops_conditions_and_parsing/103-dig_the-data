@@ -1,21 +1,4 @@
 #!/usr/bin/env bash
 # Sort IP adresses by number of occurences apache-access.log
 
-awk '{
-ip = $1
-http_code = $9
-
-key = ip " " http_code
-
-count[key]++
-
-print "\t" count[key] " " key
-}' apache-access.log | sort -nr > sorted.txt
-
-awk '{
-key = $2 " " $3
-if (!count[key]++)
-print $0
-}' sorted.txt
-
-rm -f sorted.txt
+awk '{print $1, $9}' apache-access.log | sort -r | uniq -c | sort -r
