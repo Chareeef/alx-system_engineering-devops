@@ -8,10 +8,11 @@
 pid=$(pgrep -f 100-process_and_pid_file)
 echo "$pid" > /var/run/myscript.pid
 
+trap 'echo Y U no love me?!' INT
+trap 'echo "I hate the kill command" && rm -f /var/run/myscript.pid && exit' TERM
+trap 'rm -f /var/run/myscript.pid && exit' QUIT
+
 while true; do
 	echo To infinity and beyond
 	sleep 2
-	trap 'echo "I hate the kill command"' TERM
-	trap 'rm -f "/var/run/myscript" && exit' TERM QUIT
-	trap 'echo Y U no love me?!' INT
 done
