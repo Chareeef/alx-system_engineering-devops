@@ -1,21 +1,7 @@
 #!/usr/bin/env bash
 # Managing manage_my_process
 
-if [ $# -ne 1 ]; then
-	echo "Usage: manage_my_process {start|stop|restart}"
-	exit
-fi
-allowed=("start" "stop" "restart")
-valid=false
-
-for s in "${allowed[@]}"; do
-	if [ "$1" == "$s" ]; then
-		valid=true
-		break
-	fi
-done
-
-if [ $valid == false ]; then
+if [ "$#" -ne 1 ]; then
 	echo "Usage: manage_my_process {start|stop|restart}"
 	exit
 fi
@@ -23,19 +9,22 @@ fi
 case $1 in
 	"start")
 		./manage_my_process &
-		pgrep -n -f "101-manage_my_process" > /var/run/my_process.pid
+		echo "$!" > /var/run/my_process.pid
 		echo manage_my_process started
 		;;
 	"stop")
-		pkill -f ./manage_my_process
+		kill "$(cat /var/run/my_process.pid)"
 		rm -f /var/run/my_process.pid
 		echo manage_my_process stopped
 		;;
 	"restart")
-		pkill -f ./manage_my_process
+		kill "$(cat /var/run/my_process.pid)"
 		rm -f /var/run/my_process.pid
 		./manage_my_process &
-		pgrep -n -f "101-manage_my_process" > /var/run/my_process.pid
+		echo "$!" > /var/run/my_process.pid
 		echo manage_my_process restarted
+		;;
+	*)
+		echo "Usage: manage_my_process {start|stop|restart}"
 		;;
 esac
