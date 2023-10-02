@@ -15,7 +15,7 @@ int infinite_while(void)
 		sleep(1);
 	}
 	return (0);
-	}
+}
 
 /**
  * main - Entry point
