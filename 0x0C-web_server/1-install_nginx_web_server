@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Install nginx on my server and customize the starting page
+
+sudo apt-get install nginx -y
+sudo echo "Hello World" > /var/www/html/index.html
+service nginx restart
