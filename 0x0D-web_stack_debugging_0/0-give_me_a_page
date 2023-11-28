@@ -1,0 +1,8 @@
+#!/bin/bash
+# Debug an Apache web server
+
+# Set the ServerName directive globally
+sudo echo "ServerName 0.0.0.0:8080" >> /etc/apache2/apache2.conf
+
+# Restart Apache service
+sudo service apache2 restart
