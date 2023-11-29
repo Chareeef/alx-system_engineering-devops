@@ -9,8 +9,7 @@ sudo apt-get install nginx -y
 sudo mkdir -p /etc/nginx/html
 echo "Hello World!" | sudo tee /etc/nginx/html/index.html >/dev/null
 
-sudo mkdir -p /etc/nginx/html/error_pages
-echo "Ceci n'est pas une page" | sudo tee /etc/nginx/html/error_pages/error_404.html >/dev/null
+echo "Ceci n'est pas une page" | sudo tee /etc/nginx/html/error_404.html >/dev/null
 
 printf "server {
 	listen	80 default_server;
@@ -22,9 +21,9 @@ printf "server {
 		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
 	}
 
-	error_page 404 /error_pages/error_404.html;
+	error_page 404 /error_404.html;
 
-	location = /error_pages/error_pages {
+	location = /error_404.html {
 		root	/etc/nginx/html;
 		internal;
 	}
