@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# - Install nginx on my server and customize the starting page
+# - Configure it so that it has a custom HTTP response header
+# - Configure it so that /redirect_me is redirecting to another page (301)
+# - Configure it so that it has a custom 404 error page
+
+sudo apt-get update
+
+if ! dpkg -l | grep -q "nginx"; then
+	sudo apt-get install nginx -y
+fi
+
+sudo mkdir -p /etc/nginx/html
+echo "Hello World!" | sudo tee /etc/nginx/html/index.html >/dev/null
+
+sudo mkdir -p /etc/nginx/html/error_pages
+echo "Ceci n'est pas une page" | sudo tee /etc/nginx/html/error_pages/error_404.html >/dev/null
+
+printf "server {
+	listen		80 default_server;
+	listen		[::]:80 default_server;
+	root		/etc/nginx/html;
+	index		index.html;
+	server_name	mywonder.tech;
+
+	location / {
+		add_header X-Served-By \"%s\";
+	}
+
+	location /redirect_me {
+		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+	}
+
+	error_page 404 /error_404.html;
+
+	location = /error_404.html {
+		root	/etc/nginx/html/error_pages;
+		internal;
+	}
+}
+" "$(hostname)" | sudo tee /etc/nginx/sites-available/default >/dev/null
+
+sudo service nginx reload
