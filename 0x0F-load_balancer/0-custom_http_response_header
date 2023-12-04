@@ -4,7 +4,7 @@
 # - Configure it so that /redirect_me is redirecting to another page (301)
 # - Configure it so that it has a custom 404 error page
 
-sudo apt-get update
+sudo apt-get update -y
 
 if ! dpkg -l | grep -q "nginx"; then
 	sudo apt-get install nginx -y
@@ -40,4 +40,4 @@ printf "server {
 }
 " "$(hostname)" | sudo tee /etc/nginx/sites-available/default >/dev/null
 
-sudo service nginx reload
+sudo service nginx restart
