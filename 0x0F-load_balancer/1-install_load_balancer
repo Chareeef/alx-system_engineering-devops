@@ -8,16 +8,16 @@ if ! dpkg -l | grep -q "haproxy"; then
 	sudo apt install haproxy -y
 fi
 
+echo "ENABLED=1" | sudo tee /etc/default/haproxy >/dev/null
+
 printf "
-frontend http
+frontend mywonder.tech
 	bind		*:80
-	mode		http
 
 	default_backend web_servers
 
 backend web_servers
 	balance roundrobin
-	mode	http
 	server	391436-web-01 52.91.178.165:80 check
 	server	391436-web-02 18.206.198.119:80 check
 " | sudo tee -a /etc/haproxy/haproxy.cfg >/dev/null
