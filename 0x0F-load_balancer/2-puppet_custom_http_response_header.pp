@@ -13,7 +13,7 @@ exec { 'Nginx':
 }
 
 exec { 'Header':
-  command  => 'sudo sed -i s#server_name _;#server_name _;\n\tadd_header X-Served-By $(hostname);# /etc/nginx/sites-available/default',
+  command  => 'sudo sed -i "s#server_name _;#server_name _;\n\tadd_header X-Served-By $(hostname);#" /etc/nginx/sites-available/default',
   provider => shell,
   before   => Exec['Restart'],
 }
