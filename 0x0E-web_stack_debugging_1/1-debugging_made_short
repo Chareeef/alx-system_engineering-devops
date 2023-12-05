@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Same task as the precedent, except that the nginx server must not be running, and the script must not exceed 5 lines.
+apt-get update
+apt-get install python3 nginx -y
+python3 -m http.server 80 --directory /usr/share/nginx/html/ >/dev/null 2>&1 &
