@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Script that digs a subdomain and outputs:
+# "The subdomain [SUB_DOMAIN] is a [RECORD_TYPE] record and points to [DESTINATION]"
+
+if [ "$2" != "" ]; then
+	dig "$2.$1" | grep -A1 "ANSWER SECTION" | tail -1 |\
+	awk -v subdomain="$2" '{print "The subdomain " subdomain " is a " $4 " record and points to " $5}'
+	exit
+fi
+
+subs=("www" "lb-01" "web-01" "web-02")
+
+for subdomain in "${subs[@]}"
+do
+	dig "$subdomain.$1" | grep -A1 "ANSWER SECTION" | tail -1 |\
+	awk -v subdomain="$subdomain" '{print "The subdomain " subdomain " is a " $4 " record and points to " $5}'
+done
