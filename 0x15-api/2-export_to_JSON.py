@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """Script that, using a REST API, for a given employee ID,
-returns, in a CSV file, information about his/her TODO list progress
+returns, in a JSON file, information about his/her TODO list progress
 """
-import csv
+import json
 import requests
 import sys
 
@@ -21,12 +21,14 @@ if __name__ == '__main__':
     todos = response.json()
     user_tasks = [task for task in todos if task.get('userId') == user_id]
 
-    records = []
+    tasks_list = []
     for task in user_tasks:
-        rec = [user_id, username, task.get('completed'), task.get('title')]
-        records.append(rec)
+        entry = {'task': task.get('title'), 'completed': task.get('completed'),
+                 'username': username}
+        tasks_list.append(entry)
 
-    # Write records to a CSV file:
-    with open(f'{user_id}.csv', 'w') as file:
-        csv_writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-        csv_writer.writerows(records)
+    user_dict = {f'{user_id}': tasks_list}
+
+    # Write user_dict to a JSON file:
+    with open(f'{user_id}.json', 'w') as file:
+        json.dump(user_dict, file)
