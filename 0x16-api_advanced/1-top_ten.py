@@ -2,7 +2,7 @@
 """Module to query the Reddit API and prints the titles of the
 first 10 hot posts listed for a given subreddit
 """
-import requests
+from requests import get
 
 
 def top_ten(subreddit):
@@ -10,16 +10,19 @@ def top_ten(subreddit):
     first 10 hot posts listed for a given subreddit
     """
 
-    url = f'https://www.reddit.com/r/{subreddit}/hot.json'
-    headers = {'User-Agent': 'Youssef'}
+    if subreddit is None or not isinstance(subreddit, str):
+        print(None)
+        return
+
+    user_agent = {'User-Agent': 'Google Chrome Version 120.0.6099.216'}
+    url = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
     params = {'limit': 9}
 
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
-
-    if response.status_code == 200:
-        hot_posts = response.json()['data']['children']
+    try:
+        response = get(url, headers=user_agent, params=params)
+        results = response.json()
+        hot_posts = results.get('data').get('children')
         for post in hot_posts:
             print(post['data']['title'])
-    else:
+    except Exception:
         print(None)
