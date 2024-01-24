@@ -1,9 +1,10 @@
+# Nginx config file to serve AirBnB clone content
+
 server {
 	listen		80;
 	listen		[::]:80;
 
 	location /airbnb-onepage {
-		include proxy_params;
 		proxy_pass http://127.0.0.1:5000/airbnb-onepage/;
 	}
 }

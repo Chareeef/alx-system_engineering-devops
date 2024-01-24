@@ -1,3 +1,5 @@
+# systemd script file to serve AirBnB clone content on system boot
+
 [Unit]
 Description=Spin up Gunicorn instances for AirBnB clone
 After=network.target

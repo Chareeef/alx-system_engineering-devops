@@ -1,3 +1,5 @@
+# Nginx config file to serve AirBnB clone content
+
 server {
 	listen		80;
 	listen		[::]:80;
