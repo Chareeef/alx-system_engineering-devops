@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Bash script to reload Gunicorn in a graceful way
-pid=$(pgrep gunicorn | head -1)
-cmd=$(ps -p "$pid" -o cmd | tail -1)
-sudo kill "$pid"
-bash -c "$cmd"
+  
+if pgrep -f "gunicorn" >/dev/null; then
+  sudo pkill -P "gunicorn"
+fi
